@@ -22,15 +22,20 @@ Plugin_Extern const char * PluginName()
 
 Plugin_Extern void Init()
 {
-    SubmitSpecialFunction(Message_Tirgger,"TriggerAt",at);//作为触发器时parm为MessageType，此处为at
+    // 作为触发器时parm为MessageType，此处为at
+    // parm is MessageType when used as a trigger, value is "at"
+    SubmitSpecialFunction(Message_Tirgger,"TriggerAt",at);
 }
 
 Plugin_Extern bool TriggerAt(MessageContent message)
 {
     std::istringstream str(message.content);
     std::string parm;
-    str>>parm;//空格切分字符串
-    if (parm == "今日运势ex" || parm == "今日运势Ex" || parm == "今日运势EX")//判断第一个值
+    str>>parm;// 空格切分字符串 | Split string
+
+    // 判断第一个值
+    // Determine the first value
+    if (parm == "今日运势ex" || parm == "今日运势Ex" || parm == "今日运势EX")
         HoroscopeToday(message);
 
     return true;
@@ -42,7 +47,7 @@ void HoroscopeToday(MessageContent message)
     time(&nowtime);
     tm * p = localtime(&nowtime);
 
-    long long date = (p->tm_year+1900)*10000 + (p->tm_mon+1)*100 + p->tm_mday;//获取日期
+    long long date = (p->tm_year+1900)*10000 + (p->tm_mon+1)*100 + p->tm_mday;// 获取日期 | Get the date
 
     UserData ud;
 
@@ -61,7 +66,7 @@ void HoroscopeToday(MessageContent message)
 
     if (ud.lasterDate >= date)//今日有
     {
-        ss<<"缓存中显示今天已经测过了！\n";
+        ss<<"缓存中显示今天已经测过了！\n";//The cache shows that it has been tested today!
     }
     else
     {
@@ -76,6 +81,10 @@ void HoroscopeToday(MessageContent message)
     message为传入的消息，其中有user的ID、群聊还是私聊、群联ID(如果是群聊)
     这里作为触发器,只有at时调用，因此消息类型为at（只在群聊才能触发，可能会改）
     无需再将at设为消息类型了，因为就是
+
+    message is the incoming message, which contains the user ID, group or private chat, and group ID(if group chat).
+    This is used as a trigger, which is only called at, so the message type is at (only triggered in group chat, may change).
+    You no longer need to set at as the message type, because it is
 */
 
     UserDatas[message.sendID.userID] = ud;

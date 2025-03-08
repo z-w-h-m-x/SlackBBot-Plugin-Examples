@@ -29,8 +29,11 @@ Plugin_Extern bool TriggerAt(MessageContent message)
 {
     std::istringstream str(message.content);
     std::string parm;
-    str>>parm;//空格切分字符串
-    if (parm == "今日运势") // 如果第一个字符串为"今日运势"
+    str>>parm;// 空格切分字符串 | Split string
+
+    // 判断第一个值
+    // Determine the first value
+    if (parm == "今日运势")
         HoroscopeToday(message);
 
     return true;
@@ -42,7 +45,7 @@ void HoroscopeToday(MessageContent message)
     time(&nowtime);
     tm * p = localtime(&nowtime);
 
-    long long date = (p->tm_year+1900)*10000 + (p->tm_mon+1)*100 + p->tm_mday;//获取日期
+    long long date = (p->tm_year+1900)*10000 + (p->tm_mon+1)*100 + p->tm_mday;// 获取日期 | Get the date
 
     UserData ud;
 
@@ -61,7 +64,7 @@ void HoroscopeToday(MessageContent message)
 
     if (ud.lasterDate >= date)//今日有
     {
-        ss<<"缓存中显示今天已经测过了！\n";
+        ss<<"缓存中显示今天已经测过了！\n";// The cache shows that it has been tested today!
     }
     else
     {
@@ -77,6 +80,9 @@ void HoroscopeToday(MessageContent message)
 /*
     message为传入的消息，其中有user的ID、群聊还是私聊、群联ID(如果是群聊)
     这里作为普通类型，要at对方，所以将类型设置为at
+
+    message is the incoming message, which contains the user ID, group or private chat, and group ID(if group chat).
+    Here, as a normal type, we want to be at each other, so we set the type to at
 */
 
     UserDatas[message.sendID.userID] = ud;
