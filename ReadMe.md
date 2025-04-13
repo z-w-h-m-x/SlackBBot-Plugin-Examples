@@ -1,5 +1,5 @@
-# SlackBot Plugin Examples
+# SlackBBot Plugin Examples
 
-Some exmaples of plugin for SlackBot
+Some exmaples of plugin for SlackBBot
 
-一些SlackBot插件的例子
+一些SlackBBot插件的例子
